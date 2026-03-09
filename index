@@ -67,7 +67,7 @@ input[type=range]::-moz-range-thumb { width:22px; height:22px; background:var(--
   <div class="header-inner">
     <div class="eyebrow">Nameless Consulting &middot; Spring 2026</div>
     <h1>If we spend $X on ads,<br>what could come back?</h1>
-    <p>Pick a monthly budget below. We'll show you what you might reasonably expect &mdash; in plain numbers, no jargon.</p>
+    <p>Pick a monthly budget below. We'll show you what you might reasonably expect. </p>
   </div>
 </div>
 
@@ -80,17 +80,17 @@ input[type=range]::-moz-range-thumb { width:22px; height:22px; background:var(--
       <button class="tier" data-spend="1500">
         <span class="t-name">Starter</span>
         <span class="t-spend">$1,500</span>
-        <span class="t-note">Best for learning. Don&rsquo;t expect big returns right away.</span>
+        <span class="t-note">Best for learning. Longer lead time for actual product revenue ROI.</span>
       </button>
       <button class="tier active" data-spend="2750">
         <span class="t-name">Growth &mdash; Recommended</span>
         <span class="t-spend">$2,750</span>
-        <span class="t-note">Where things start clicking. Our recommended starting point.</span>
+        <span class="t-note">Our recommended starting point. It balances paying for information/views and actual product sales.</span>
       </button>
       <button class="tier" data-spend="5000">
         <span class="t-name">Scale</span>
         <span class="t-spend">$5,000</span>
-        <span class="t-note">More budget = faster learning and more room to grow.</span>
+        <span class="t-note">More budget will provide faster learning and more room to grow.</span>
       </button>
     </div>
   </div>
