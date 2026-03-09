@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garner &amp; Tow — What Could Ads Return?</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #f5f0e8; --stone: #e2d9c8; --bark: #4a3f2f;
+  --moss: #4e6040;  --rust: #9b4a28;  --warm-gray: #8a8070;
+  --dark: #272018;  --white: #fdfaf4;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'DM Sans',sans-serif; background:var(--cream); color:var(--dark); min-height:100vh; }
+.header { background:var(--dark); padding:36px 40px; }
+.header-inner { max-width:780px; margin:0 auto; }
+.eyebrow { font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--warm-gray); margin-bottom:10px; }
+.header h1 { font-family:'Lora',serif; font-size:26px; font-weight:500; color:var(--cream); line-height:1.3; }
+.header p  { margin-top:10px; font-size:14px; color:var(--warm-gray); font-weight:300; line-height:1.6; max-width:520px; }
+.main { max-width:780px; margin:0 auto; padding:44px 24px 80px; }
+.section { margin-bottom:48px; }
+.section-label { font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--warm-gray); margin-bottom:16px; display:flex; align-items:center; gap:10px; }
+.section-label::after { content:''; flex:1; height:1px; background:var(--stone); }
+.tiers { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+.tier { background:var(--white); border:1.5px solid var(--stone); padding:20px 16px; cursor:pointer; text-align:center; transition:all 0.15s; font-family:inherit; color:var(--dark); }
+.tier:hover { border-color:var(--bark); }
+.tier.active { border-color:var(--bark); background:var(--bark); color:var(--cream); }
+.t-name  { font-size:11px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; opacity:0.7; display:block; margin-bottom:6px; }
+.tier.active .t-name { opacity:0.85; }
+.t-spend { font-family:'Lora',serif; font-size:22px; display:block; margin-bottom:6px; }
+.t-note  { font-size:11px; line-height:1.5; opacity:0.6; }
+.tier.active .t-note { opacity:0.8; }
+.card { background:var(--white); border:1px solid var(--stone); padding:28px; margin-bottom:16px; }
+.big-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1px; background:var(--stone); border:1px solid var(--stone); margin-bottom:24px; }
+.big-cell { background:var(--cream); padding:22px 18px; text-align:center; }
+.big-val { font-family:'Lora',serif; font-size:26px; color:var(--dark); display:block; margin-bottom:6px; line-height:1.2; }
+.big-val.green { color:var(--moss); }
+.big-lbl { font-size:12px; color:var(--warm-gray); line-height:1.4; }
+.plain { background:var(--cream); border-left:3px solid var(--moss); padding:18px 20px; font-size:14px; line-height:1.75; color:var(--bark); }
+.plain p+p { margin-top:10px; }
+.prod-row { display:grid; grid-template-columns:110px 1fr 70px; align-items:center; gap:16px; padding:14px 0; border-bottom:1px solid var(--stone); }
+.prod-row:first-child { border-top:1px solid var(--stone); }
+.prod-name  { font-family:'Lora',serif; font-size:15px; color:var(--bark); }
+.prod-price { font-size:11px; color:var(--warm-gray); margin-top:2px; }
+.bar-track  { height:7px; background:var(--stone); border-radius:4px; overflow:hidden; margin-bottom:5px; }
+.bar-fill   { height:100%; background:var(--moss); border-radius:4px; transition:width 0.35s ease; }
+.bar-lbl    { font-size:11px; color:var(--warm-gray); }
+.prod-units { text-align:right; font-family:'Lora',serif; font-size:20px; }
+.prod-units span { display:block; font-family:'DM Sans',sans-serif; font-size:11px; color:var(--warm-gray); margin-top:2px; }
+.tl-row   { display:flex; gap:14px; padding:14px 0; border-bottom:1px solid var(--stone); font-size:13px; }
+.tl-row:last-child { border-bottom:none; }
+.tl-dot   { width:8px; height:8px; border-radius:50%; background:var(--moss); flex-shrink:0; margin-top:4px; }
+.tl-month { font-family:'Lora',serif; font-size:14px; color:var(--bark); min-width:72px; }
+.tl-desc  { color:var(--warm-gray); line-height:1.55; }
+.caveat   { background:var(--stone); padding:20px 22px; font-size:13px; line-height:1.7; color:var(--bark); }
+footer    { text-align:center; padding:24px; font-size:12px; color:var(--warm-gray); border-top:1px solid var(--stone); }
+input[type=range] { width:100%; -webkit-appearance:none; height:3px; background:var(--stone); outline:none; cursor:pointer; border-radius:2px; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:22px; height:22px; background:var(--bark); border-radius:50%; cursor:pointer; }
+input[type=range]::-moz-range-thumb { width:22px; height:22px; background:var(--bark); border-radius:50%; cursor:pointer; border:none; }
+@media(max-width:600px){ .tiers,.big-row{grid-template-columns:1fr;} .prod-row{grid-template-columns:90px 1fr 56px;} }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="eyebrow">Nameless Consulting &middot; Spring 2026</div>
+    <h1>If we spend $X on ads,<br>what could come back?</h1>
+    <p>Pick a monthly budget below. We'll show you what you might reasonably expect &mdash; in plain numbers, no jargon.</p>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- STEP 1 -->
+  <div class="section">
+    <div class="section-label">Step 1 &mdash; Pick a monthly ad budget</div>
+    <div class="tiers">
+      <button class="tier" data-spend="1500">
+        <span class="t-name">Starter</span>
+        <span class="t-spend">$1,500</span>
+        <span class="t-note">Best for learning. Don&rsquo;t expect big returns right away.</span>
+      </button>
+      <button class="tier active" data-spend="2750">
+        <span class="t-name">Growth &mdash; Recommended</span>
+        <span class="t-spend">$2,750</span>
+        <span class="t-note">Where things start clicking. Our recommended starting point.</span>
+      </button>
+      <button class="tier" data-spend="5000">
+        <span class="t-name">Scale</span>
+        <span class="t-spend">$5,000</span>
+        <span class="t-note">More budget = faster learning and more room to grow.</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="section">
+    <div class="section-label">Step 2 &mdash; What that could look like in sales</div>
+    <div class="card">
+      <div class="big-row">
+        <div class="big-cell">
+          <span class="big-val" id="revenueVal"></span>
+          <div class="big-lbl">Revenue the ads<br>could generate</div>
+        </div>
+        <div class="big-cell">
+          <span class="big-val green" id="ordersVal"></span>
+          <div class="big-lbl">Estimated orders<br>per month</div>
+        </div>
+        <div class="big-cell">
+          <span class="big-val" id="roasVal"></span>
+          <div class="big-lbl">Back for every<br>$1 spent on ads</div>
+        </div>
+      </div>
+      <div class="plain" id="revPlain"></div>
+    </div>
+    <div class="section-label" style="margin-top:28px;">What that looks like per product</div>
+    <div id="prodRows"></div>
+  </div>
+
+  <!-- STEP 3: LPV SLIDER -->
+  <div class="section">
+    <div class="section-label">Step 3 &mdash; What you&rsquo;re paying per website visit</div>
+    <p style="font-size:13px;color:var(--warm-gray);line-height:1.6;margin-bottom:20px;">Before anyone buys, they have to land on your site. Drag the slider to see how many visitors each budget could deliver &mdash; from $2.00 per visit in the early days, down to our $1.00 goal as the campaign matures.</p>
+
+    <div class="card">
+
+      <div style="margin-bottom:32px;">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;">
+          <span style="font-size:13px;color:var(--bark);font-weight:500;">Cost per landing page view</span>
+          <span style="font-family:'Lora',serif;font-size:32px;color:var(--moss);" id="cpvDisplay">$1.50</span>
+        </div>
+        <input type="range" id="cpvSlider" min="100" max="200" step="1" value="150">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--warm-gray);margin-top:8px;">
+          <span>$1.00 &mdash; Our goal</span>
+          <span>$1.50&ndash;$1.80 &mdash; Starting target</span>
+          <span>$2.00 &mdash; Early days</span>
+        </div>
+        <div style="margin-top:14px;padding:12px 16px;background:var(--cream);border-left:3px solid var(--moss);font-size:13px;line-height:1.6;color:var(--bark);" id="cpvContext"></div>
+      </div>
+
+      <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:14px;">Visitors per month at each budget</div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--stone);border:1px solid var(--stone);margin-bottom:24px;">
+        <div style="background:var(--cream);padding:20px 16px;text-align:center;">
+          <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:8px;">Starter &middot; $1,500</div>
+          <div style="font-family:'Lora',serif;font-size:32px;color:var(--dark);" id="lpv1500">—</div>
+          <div style="font-size:11px;color:var(--warm-gray);margin-top:4px;">visitors / month</div>
+        </div>
+        <div style="background:var(--bark);padding:20px 16px;text-align:center;">
+          <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:rgba(245,240,232,0.6);margin-bottom:8px;">Growth &middot; $2,750</div>
+          <div style="font-family:'Lora',serif;font-size:32px;color:var(--cream);" id="lpv2750">—</div>
+          <div style="font-size:11px;color:rgba(245,240,232,0.6);margin-top:4px;">visitors / month</div>
+        </div>
+        <div style="background:var(--cream);padding:20px 16px;text-align:center;">
+          <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:8px;">Scale &middot; $5,000</div>
+          <div style="font-family:'Lora',serif;font-size:32px;color:var(--dark);" id="lpv5000">—</div>
+          <div style="font-size:11px;color:var(--warm-gray);margin-top:4px;">visitors / month</div>
+        </div>
+      </div>
+
+      <div id="lpvBars"></div>
+
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="section">
+    <div class="section-label">Step 4 &mdash; What to expect month by month</div>
+    <div>
+      <div class="tl-row"><div class="tl-dot"></div><div class="tl-month">Month 1</div><div class="tl-desc">Setup, launch, and early data. The ads are live but Meta is still figuring out who to show them to. Don&rsquo;t read too much into early numbers &mdash; this month is about buying information.</div></div>
+      <div class="tl-row"><div class="tl-dot"></div><div class="tl-month">Month 2</div><div class="tl-desc">The algorithm starts to find its rhythm. You&rsquo;ll see real conversion data and we&rsquo;ll start optimizing based on what&rsquo;s working. Cost per visit typically starts dropping here.</div></div>
+      <div class="tl-row"><div class="tl-dot"></div><div class="tl-month">Month 3</div><div class="tl-desc">This is where the numbers in this model become most realistic. The pixel has data, the algorithm is tuned, and results compound.</div></div>
+    </div>
+  </div>
+
+  <div class="caveat">
+    <strong>A note on these numbers:</strong> These are estimates based on typical Meta ad performance for premium DTC products at similar price points. Actual results will vary &mdash; especially in the first 4&ndash;6 weeks while the algorithm is learning. The $2,000/month management fee is not included in any revenue figures above.
+  </div>
+
+</div>
+
+<footer>Prepared by Nameless Consulting &mdash; preston@namelessconsulting.com</footer>
+
+<script>
+(function () {
+  var products = [
+    { name: 'Tote',   price: 350 },
+    { name: 'Duffel', price: 300 },
+    { name: 'Sling',  price: 99  }
+  ];
+  var tiers = {
+    1500: { roasLow: 1.5, roasHigh: 2.2 },
+    2750: { roasLow: 2.0, roasHigh: 3.0 },
+    5000: { roasLow: 2.5, roasHigh: 4.0 }
+  };
+  var avgAOV = products.reduce(function(s,p){ return s+p.price; },0) / products.length;
+  function dollars(n){ return '$'+Math.round(n).toLocaleString(); }
+
+  /* ---- REVENUE / PRODUCTS (tied to tier buttons) ---- */
+  function updateRevenue(spend) {
+    var t = tiers[spend];
+    var revLow  = spend * t.roasLow;
+    var revHigh = spend * t.roasHigh;
+    var ordLow  = Math.round(revLow  / avgAOV);
+    var ordHigh = Math.round(revHigh / avgAOV);
+
+    document.getElementById('revenueVal').textContent = dollars(revLow)+' \u2013 '+dollars(revHigh);
+    document.getElementById('ordersVal').textContent  = ordLow+'\u2013'+ordHigh+' orders';
+    document.getElementById('roasVal').textContent    = t.roasLow.toFixed(1)+'\u00d7 \u2013 '+t.roasHigh.toFixed(1)+'\u00d7';
+    document.getElementById('revPlain').innerHTML =
+      '<p>For every $1 you put into ads you could get back <strong>'+t.roasLow.toFixed(1)+'\u2013'+t.roasHigh.toFixed(1)+' dollars</strong> in sales.</p>'+
+      '<p>After paying for the ads, that\u2019s roughly <strong>'+dollars(revLow-spend)+'\u2013'+dollars(revHigh-spend)+' in revenue on top of what you spent</strong> \u2014 before cost of goods and the management fee.</p>';
+
+    var spendEach = spend / products.length;
+    document.getElementById('prodRows').innerHTML = products.map(function(p){
+      var rLow  = spendEach * t.roasLow;
+      var rHigh = spendEach * t.roasHigh;
+      var uLow  = Math.floor(rLow  / p.price);
+      var uHigh = Math.ceil(rHigh  / p.price);
+      return '<div class="prod-row">'+
+        '<div><div class="prod-name">'+p.name+'</div><div class="prod-price">'+dollars(p.price)+' each</div></div>'+
+        '<div><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>'+
+        '<div class="bar-lbl">'+dollars(rLow)+'\u2013'+dollars(rHigh)+' est. revenue &middot; '+dollars(spendEach)+' ad spend</div></div>'+
+        '<div class="prod-units">'+uLow+'\u2013'+uHigh+'<span>units</span></div>'+
+      '</div>';
+    }).join('');
+  }
+
+  /* ---- LPV SLIDER (independent) ---- */
+  var lpvTiers = [
+    { id:'1500', spend:1500, label:'Starter'  },
+    { id:'2750', spend:2750, label:'Growth'   },
+    { id:'5000', spend:5000, label:'Scale'    }
+  ];
+
+  function updateLPV(cpv) {
+    document.getElementById('cpvDisplay').textContent = '$'+cpv.toFixed(2);
+
+    var ctx;
+    var borderColor = 'var(--moss)';
+    if (cpv <= 1.05) {
+      ctx = '<strong>Goal achieved.</strong> This is where we aim to get by month 3. Every dollar is working hard.';
+    } else if (cpv <= 1.80) {
+      ctx = '<strong>Within starting target ($1.50\u2013$1.80).</strong> Healthy for a new account. Good creative gets you here in months 1\u20132.';
+    } else {
+      ctx = '<strong>Above starting target.</strong> Common in the first few weeks. As the algorithm learns and creative improves, costs typically fall.';
+      borderColor = 'var(--rust)';
+    }
+    var ctxEl = document.getElementById('cpvContext');
+    ctxEl.innerHTML = ctx;
+    ctxEl.style.borderLeftColor = borderColor;
+
+    var maxLPV = 5000 / 1.00;
+    lpvTiers.forEach(function(tier){
+      var lpvs = Math.round(tier.spend / cpv);
+      document.getElementById('lpv'+tier.id).textContent = lpvs.toLocaleString();
+    });
+
+    document.getElementById('lpvBars').innerHTML = lpvTiers.map(function(tier){
+      var lpvs = Math.round(tier.spend / cpv);
+      var pct  = Math.min(100, Math.round((lpvs / maxLPV) * 100));
+      return '<div style="margin-bottom:14px;">'+
+        '<div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px;">'+
+          '<span style="color:var(--bark);">'+tier.label+' <span style="color:var(--warm-gray);font-size:11px;">$'+tier.spend.toLocaleString()+'/mo</span></span>'+
+          '<span style="color:var(--dark);font-weight:500;">'+lpvs.toLocaleString()+' visitors</span>'+
+        '</div>'+
+        '<div class="bar-track"><div class="bar-fill" style="width:'+pct+'%"></div></div>'+
+      '</div>';
+    }).join('');
+  }
+
+  /* ---- BIND EVENTS ---- */
+  document.querySelectorAll('.tier').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.tier').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      updateRevenue(parseInt(btn.getAttribute('data-spend'), 10));
+    });
+  });
+
+  document.getElementById('cpvSlider').addEventListener('input', function(){
+    updateLPV(parseInt(this.value, 10) / 100);
+  });
+
+  /* ---- INIT ---- */
+  updateRevenue(2750);
+  updateLPV(1.50);
+
+}());
+</script>
+</body>
+</html>
